@@ -1,6 +1,11 @@
 <template>
   <div class="hello">
     <h1>{{ msg }}</h1>
+    <ul>
+      <li v-for="data in tableau_nom" v-bind:key="data.id">
+          {{data.id}} => {{data.name}}
+      </li>
+    </ul>
     <h2>Essential Links</h2>
     <ul>
       <li>
@@ -84,12 +89,25 @@
 </template>
 
 <script>
+import axios from 'axios'
 export default {
   name: 'HelloWorld',
   data () {
     return {
-      msg: 'Welcome to Your Vue Dorian K.js App'
+      msg: 'Welcome to Your Vue Dorian K.js App',
+      tableau_nom: []
     }
+  },
+  created () {
+    axios.get('http://127.0.0.1:8000/api/testReq')
+      .then(response => {
+        this.tableau_nom = response.data
+      }
+      )
+      .catch(e => {
+        console.log(e)
+      }
+      )
   }
 }
 </script>
